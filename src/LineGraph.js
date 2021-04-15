@@ -8,7 +8,7 @@ const options ={
     },
     elements: {
         point: {
-            radius: 0,
+            radius: 0, 
         },
     },
     maintainAspectsRatio: false,
@@ -62,7 +62,7 @@ const buildCHartData = (data, casesType) => {
     return chartData;
 }
 
-function LineGraph( { caseType = 'cases' } ) {
+function LineGraph( { casesType='cases', ...props} ) {
 
     const [data, setData] = useState({});
 
@@ -72,15 +72,15 @@ function LineGraph( { caseType = 'cases' } ) {
             await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
             .then(response => response.json())
             .then(data => {
-                let  chartData = buildCHartData(data, 'cases');
+                let  chartData = buildCHartData(data, casesType);
                 setData(chartData);
             });
         } 
         fetchData();
-    }, []);
+    }, [casesType]);
 
     return (
-        <div>
+        <div className={props.className} >
             {data?.length > 0 && (
                  <Line
                  options = {options}
